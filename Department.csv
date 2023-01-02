@@ -1,0 +1,6 @@
+Department_ID,Department_Name,List_of_Batches
+CSE,Computer Science and Engineering,"CSE19,CSE20,CSE22"
+ECE,Electrical and Communication Engineering,"ECE18,ECE20"
+IOT,Internet Of Things,IOT21
+ME,Mechanical Engineering,"ME19,ME22"
+IT,Information Technology,IT22
