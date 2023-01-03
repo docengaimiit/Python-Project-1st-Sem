@@ -5,7 +5,7 @@ students=pd.read_csv('students2022.csv')
 students=students.astype(str)
 batches=pd.read_csv('batches.csv')
 course=pd.read_csv('course.csv')
-department=pd.read_csv('department.csv')
+department=pd.read_csv('Department.csv')
 def mainFunc():
     print("Choose the module")
     print("1.Student")
