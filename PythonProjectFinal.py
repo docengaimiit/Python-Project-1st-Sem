@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[13]:
-
-
 import pandas as pd
 import matplotlib.pyplot as plt
 import csv
@@ -54,29 +48,29 @@ def studfunc():
          createReport() 
 def autoupdatestuID():
     for rows in students.index:
-        students.loc[rows,'STUDENT ID']=students.loc[rows,'BATCH ID']+str(students.loc[rows,'CLASS ROLL NO.']).zfill(2)
+        students.loc[rows,'STUDENT_ID']=students.loc[rows,'BATCH_ID']+str(students.loc[rows,'CLASS_ROLL_NO.']).zfill(2)
 
 def updateBatch_Roll(val,nvalue):
     bat=''
     roll=''
     count=0
-    students.loc[val,'STUDENT ID']=nvalue
-    for j in students['STUDENT ID'][val]:
+    students.loc[val,'STUDENT_ID']=nvalue
+    for j in students['STUDENT_ID'][val]:
         if j.isdigit():
             count+=1
         if count<=2:
             bat+=j
         else:
             roll+=j
-    students.loc[val,'BATCH ID']=bat
-    students.loc[val,'CLASS ROLL NO.']=roll
+    students.loc[val,'BATCH_ID']=bat
+    students.loc[val,'CLASS_ROLL_NO.']=roll
 
 def chkStuId():
     autoupdatestuID()
-    return students.duplicated(subset=['STUDENT ID']).any()
+    return students.duplicated(subset=['STUDENT_ID']).any()
     
 def createStudent():
-    list1=['Student ID','Student Name','Batch ID','Roll no']
+    list1=['Student ID','Student Name','BATCH_ID','Roll no']
     data = {1:[],2:[],3:[],4:[]}
     for i in range(1,5):
         var=input(f"Enter the {list1[i-1]} : ")
@@ -88,10 +82,10 @@ def createStudent():
     students=pd.read_csv('students2022.csv')
     autoupdatestuID()
 
-    if(students.duplicated(subset=['STUDENT ID']).any()):
-        print("\nSTUDENT WITH SAME STUDENT ID ALREADY EXISTS\n")
-        display_Data(students[students.duplicated(subset=['STUDENT ID'],keep='last')])
-        students.drop_duplicates(subset=['STUDENT ID'],keep='first',inplace=True)
+    if(students.duplicated(subset=['STUDENT_ID']).any()):
+        print("\nSTUDENT WITH SAME STUDENT_ID ALREADY EXISTS\n")
+        display_Data(students[students.duplicated(subset=['STUDENT_ID'],keep='last')])
+        students.drop_duplicates(subset=['STUDENT_ID'],keep='first',inplace=True)
         students.to_csv('students2022.csv',index=False)
     else:
         display_Data(students)
@@ -159,10 +153,10 @@ def updateDatabase():
         #checking if same student id exists
         if(chkStuId() & choice!=1):
             print("\n Student with same Student Id already exists.\n")
-            #print(students[students.duplicated(subset=['STUDENT ID'],keep='last')])
+            #print(students[students.duplicated(subset=['STUDENT_ID'],keep='last')])
             return None
         if(choice==1):
-            if(students.duplicated(subset=['STUDENT ID']).any()):
+            if(students.duplicated(subset=['STUDENT_ID']).any()):
                 print("\n Student with same Student Id already exists.\n")
                 return None
             updateBatch_Roll(val,nvalue)
@@ -189,7 +183,7 @@ def createReport():
             studroll=students.loc[name,'CLASS_ROLL_NO.']
             with open(f"{studname}_{studid}.txt",mode='w+') as file1:
                 file1.write(f"STUDENT NAME : {studname}\n")
-                file1.write(f"STUDENT ID : {studid}\n")
+                file1.write(f"STUDENT_ID : {studid}\n")
                 file1.write(f"STUDENT ROLL NO. : {studroll}\n\n")
                 for i in course.index:
                     couid=course.loc[i,'COURSEID']
@@ -232,7 +226,7 @@ def CourseFunc():
         view_Course_Perf()
     elif choose==3:
         course_graph()
-   
+
 def createCourse():
     dict1={}
     list1=['COURSEID','COURSE_NAME']
@@ -337,8 +331,8 @@ def BatchFunc():
         batch_Graph()      
           
 def createBatch():
-    display_Data(batches)
-    list1=['Batch ID','Batch Name','Department','List of Course']
+    #display_Data(batches)
+    list1=['BATCH_ID','Batch Name','Department','List of Course']
     data = {1:[],2:[],3:[],4:[]}
     print("Enter data according to the format shown above")
     for i in range(1,5):
@@ -361,7 +355,7 @@ def studInBatch():
 def courseInBatch():
     batches=pd.read_csv('batches.csv')
     course=pd.read_csv('course.csv')
-    value=input("Enter the Batch ID whose courses you want to see\n")
+    value=input("Enter the BATCH_ID whose courses you want to see\n")
     value=value.upper()
     for i in batches.index:
         if batches.iloc[i,0]==value:
@@ -405,7 +399,7 @@ def batch_Graph():
 #performance of a particular Batch
 def BatchPerf():
     students=pd.read_csv('students2022.csv')
-    bat=input("Enter the Batch ID : ")
+    bat=input("Enter the BATCH_ID : ")
     bat=bat.upper()
     df1=view_Overall_Perf()
     df3=pd.merge(students,df1,left_on='STUDENT_ID',right_on=df1.index)
@@ -451,6 +445,7 @@ def depart_graph():
     import matplotlib.pyplot as plt
     department=pd.read_csv('Department.csv')
     dict0={}
+    list1=''
     dep=input("Enter the Department ID : ")
     dep=dep.upper()
     for i in department.index:
@@ -477,7 +472,7 @@ def depart_graph():
         x=list(dict0.keys())
         y=list(dict0.values())
         ax.plot(x, y,marker=".",markerfacecolor='blue', markersize=15,label=j[0],linewidth=3)
-        plt.xlabel("BATCH ID ------>")
+        plt.xlabel("BATCH_ID ------>")
         plt.ylabel("Average Percentage of the Batch ----->")
         plt.title(f"Performane Graph for Department of {dep}")
     plt.show()
@@ -638,4 +633,3 @@ def ScatterGraph():
         ax=plt.scatter(list0,list1,color=list2[i])
     plt.show()                     
 mainFunc()          
-
